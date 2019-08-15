@@ -1,0 +1,14 @@
+---
+chapter: 6
+knit: "bookdown::render_book"
+---
+
+```{r load}
+```
+
+
+# A Framework for Automated Anomaly Detection in High Frequency Water-Quality Data From *in situ* Sensors {#ch:oddwater_main}
+
+**This article is published in the *Science of the Total Environment*. The work is based on the  collaborative research project carried out with the Queensland University of Technology and the Queensland Department of Environment and Science, Great Barrier Reef  Catchment Loads Monitoring Program from April to July 2018. **
+
+Full paper is available at  - [https://www.sciencedirect.com/science/article/pii/S0048969719305662](https://www.sciencedirect.com/science/article/pii/S0048969719305662)

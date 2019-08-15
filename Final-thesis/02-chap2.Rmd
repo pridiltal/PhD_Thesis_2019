@@ -1,0 +1,15 @@
+---
+chapter: 4
+knit: "bookdown::render_book"
+---
+
+```{r load}
+```
+
+
+
+# Anomaly Detection for High Dimensional Data {#ch:stray}
+
+**This article has been submitted to *Computational Statistics & Data Analysis* for possible publication.**
+
+\includepdf[pages={1-30}, scale=1]{stray_paper_EBS.pdf}

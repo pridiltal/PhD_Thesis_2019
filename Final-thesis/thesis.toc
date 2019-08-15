@@ -1,0 +1,61 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Copyright Notice}{iii}{chapter*.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Abstract}{v}{chapter*.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Publications During Enrolment}{vii}{chapter*.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Declaration}{ix}{chapter*.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Acknowledgements}{xi}{chapter*.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.1}Background}{1}{section.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1.1}Definitions Found in the Literature}{2}{subsection.1.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1.2}Representation of Time Series}{3}{subsection.1.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1.3}Extreme Value Theory}{3}{subsection.1.1.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1.4}Key Results of Classical Extreme Value Theory}{4}{subsection.1.1.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {1.1.5}Calculation of Anomalous Threshold}{11}{subsection.1.1.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Top-down algorithm}{11}{subsubsection*.9}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsubsection}{Bottom-up algorithm}{12}{subsubsection*.10}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {1.2}Motivation and Objectives}{13}{section.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {2}Anomaly Detection for High Dimensional Data}{17}{chapter.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {3}Anomaly Detection in Streaming Non-stationary Temporal Data}{49}{chapter.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {4}A Feature-Based Procedure for Detecting Technical Outliers in Water-Quality Data from \emph {in situ} Sensors}{51}{chapter.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {5}A Framework for Automated Anomaly Detection in High Frequency Water-Quality Data From \emph {in situ} Sensors}{83}{chapter.5}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{\numberline {6}Conclusion}{85}{chapter.6}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.1}Summary of the Results and Contributions}{85}{section.6.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.1}The stray algorithm}{86}{subsection.6.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.2}The oddstream algorithm}{87}{subsection.6.1.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.1.3}The oddwater algorithm}{88}{subsection.6.1.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.2}Future Work}{89}{section.6.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {6.3}Research Reproducibility}{91}{section.6.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.1}Software}{91}{subsection.6.3.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.2}Data}{92}{subsection.6.3.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {6.3.3}Papers}{92}{subsection.6.3.3}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {chapter}{Bibliography}{93}{chapter*.11}% 

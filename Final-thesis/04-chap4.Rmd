@@ -1,0 +1,14 @@
+---
+chapter: 5
+knit: "bookdown::render_book"
+---
+
+```{r load}
+```
+
+
+# A Feature-Based Procedure for Detecting Technical Outliers in Water-Quality Data from *in situ* Sensors {#ch:oddwater_features}
+
+**This article has been revised and resubmitted to the "Water Resources Research* for possible publication. The work is based on the  collaborative research project carried out with the Queensland University of Technology and the Queensland Department of Environment and Science, Great Barrier Reef  Catchment Loads Monitoring Program from April to July 2018.**
+
+\includepdf[pages={1-31}, scale=1]{oddwater.pdf}

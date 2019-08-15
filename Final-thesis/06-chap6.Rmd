@@ -1,0 +1,94 @@
+---
+chapter: 7
+knit: "bookdown::render_book"
+---
+
+```{r load}
+```
+
+
+# Conclusion {#ch:conclusion}
+
+This thesis by publication is built around four articles. Although the four articles have their own focus motivated by a wide range of different analytical challenges from different fields, none of them is completely an anomaly. The four articles  move around a unifying theme on anomaly detection in streaming time series data, with a different degree of attention to the common theme.
+
+
+## Summary of the Results and Contributions
+
+Despite the long history of research on anomaly detection,  the problem is still challenging  owing to the evolving nature  of the problem setting introduced by different applications and user requirements. This thesis is an attempt to reduce this gap by introducing three  new algorithms, stray, oddstream and oddwater, for anomaly detection in temporal data with applications in pedestrian monitoring, security monitoring and  sensor quality monitoring, respectively. The three algorithms stem from the analytical challenges introduced by the applications with various input data structures, definitions, problem specifications, user requirements, limitations of the state-of-the-art methods and  unavailability of techniques that accommodate some of the data challenges. 
+
+### The stray algorithm
+
+
+
+Anomaly detection in high-dimensional data is a challenging yet important task, because it has applications in many fields. The HDoutliers algorithm by @wilkinsonvisualizing  is a powerful algorithm for anomaly detection in high-dimensional data with a strong theoretical foundation. However, it suffers from a few limitations since it limits the anomalous score calculation only to the nearest neighbour distances  and uses  the Leader algorithm to form several clusters of points prior to anomalous score calculation. The effect of these limitations is a tendency to reduce  computational efficiency and increase  false detection rates under certain circumstances. Therefore, the main objective of Chapter \ref{ch:stray}  was to propose solutions to the limitation of the HDoutliers algorithm and thereby  improve its capabilities.
+
+The proposed algorithm,  stray, addresses the limitations of the HDoutliers algorithm.  In the stray algorithm, an anomaly is defined as an observation that deviates markedly from the majority with a large distance gap. It  calculates an anomalous score for each data instance using $k$-nearest neighbour distances with the maximum gap. An approach based on extreme value theory  is then applied to the anomalous scores to calculate a data-driven anomalous threshold. This improved algorithm can assign both a label and an anomalous score that explains the level of outlierness of each data instance. 
+
+This study offers two fundamental contributions. First, it proposes an improved algorithm for anomaly detection in high-dimensional data that addresses the limitations of the state-of-art-method, the HDoutliers algorithm. It outperforms the state-of-the-art method in both accuracy and computational efficiency. Among many other advantages, the stray algorithm has the ability to deal with the masking problem, multimodal distributions and inliers and outliers. The stray algorithm is  specially designed for high-dimensional data. As the second contribution, the study demonstrates how  the stray algorithm can assist in  detecting anomalies present in other data structures, such  as temporal data and streaming data,  using feature engineering. 
+
+Since the stray algorithm is based on the distance definition of an anomaly, the algorithm  expects data instances to have a clear distance separation between the anomalous and typical points. Then, only the anomalous points (if any) have  significantly large  k-nearest neighbour distances with the maximum gap that discriminate anomalies from typical points.   However, some applications do not exhibit large gaps between typical points and anomalies. Instead, the anomalies deviate from the majority, or the region of typical data, gradually, without introducing a large distance between typical and anomalous points. In the absence of clear distance separation between anomalous points and the typical points, the stray algorithm fails to detect anomalies  since  distance measures are the primary source of information  for the algorithm to detect anomalies. This limitation of the stray algorithm motivates the second algorithm proposed in Chapter \ref{ch:oddstream} of this thesis. 
+
+
+### The oddstream algorithm
+
+In addition to the aforementioned limitation of the stray algorithm, the limited research attempts  for detecting anomalous series within a large collection of  streaming data motivated the second algorithm of this thesis, the oddstream algorithm. The primary focus of  Chapter \ref{ch:oddstream} was to develop a powerful automated method to detect anomalous  series within a large collection of series in the streaming data context. 
+
+In the oddstream algorithm, an anomaly is defined as an observation that is very unlikely, given the recent distribution of a given system. In this algorithm, a boundary for the system's typical behaviour is defined using extreme value theory. Then, a sliding window is used to test newly arrived data. The model uses time series features as inputs and a density-based comparison to locate nonstationarity. This algorithm can detect  significant changes in the typical behaviour and automatically update the anomalous threshold on detecting nonstationarity. 
+
+This study offers three fundamental contributions. First, it proposes a new framework that provides early detection of anomalies within a large collection of streaming time series data. Second, it proposes a novel approach that adapts to nonstationarity. Third, using various synthetic and real datasets, it demonstrates the wide applicability and usefulness of the algorithm. Application of the oddstream algorithm with data obtained using fibre optic cables for intrusion detection showed that the algorithm has the ability to deal with large nonstationary streaming data  that may have multimodal distributions. 
+
+### The oddwater algorithm
+
+Automated *in situ* sensors have the potential to revolutionise the way we monitor environmental conditions. However, the data produced by these sensors  are  prone to errors because of many reasons, such as  miscalibration, biofouling and battery failures [@horsburgh2015open]. These technical outliers make the data unreliable for scientific analysis. Therefore, to ensure water-quality sensors yield high-quality data, we need to automate the real-time detection of technical outliers in such data. However, a customised method to detect technical outliers in water-quality data from *in situ* sensors is lacking.  No exiting outlier detection method is able to address this challenge owing to the complex nature of the definition of a technical outlier in water-quality data from *in situ* sensors.  Therefore,  the main objective of  Chapters \ref{ch:oddwater_features} and
+\ref{ch:oddwater_main} was to propose a new framework to detect technical outliers in high-frequency water-quality data from *in situ* sensors.
+ 
+This study  proposes an automated framework that provides early detection of technical outliers, caused by technical issues, in water-quality data from *in situ* sensors.  We compare two approaches to this problem: (1) using forecasting models (Chapter \ref{ch:oddwater_main}) and (2) using feature vectors with extreme value theory (Chapter \ref{ch:oddwater_features}). In the forecasting models, observations are identified as outliers when they fall outside the bounds of an established prediction interval. Two strategies are considered for this comparison study: anomaly detection (AD) and anomaly detection and mitigation (ADAM) for the detection process. With ADAM, the detected outliers are replaced with the forecast prior to the next prediction, whereas AD simply uses the previous measurements without altering detected outliers. The feature-based framework first identifies the data features that differentiate outlying instances from typical behaviours. Then, statistical transformations are applied to make the outlying instances stand out in transformed data space. Unsupervised outlier scoring techniques are then applied to the transformed data space. An approach based on extreme value theory is used to calculate a threshold for each potential outlier.  The proposed frameworks are evaluated using  two datasets obtained from *in situ* sensors in rivers flowing into the Great Barrier Reef lagoon. 
+
+The feature-based approach (in Chapter \ref{ch:oddwater_features}) successfully identified outliers involving abrupt changes in turbidity, conductivity and river level, including sudden spikes, sudden isolated drops and level shifts, while maintaining very low false detection rates. Since this is  an unsupervised algorithm, it can be easily extended to other water-quality variables, other sites and also to other outlier detection tasks in other application domains. The only requirement is to select suitable transformation methods according to the data features that differentiate the outlying instances from the typical behaviours of a given system. The transformations used in this study were mainly  chosen  as appropriate to the data collected from Sandy Creek and Pioneer River. Domain-specific knowledge plays a vital role when selecting suitable transformations.
+
+
+
+## Future Work
+
+Since this is a thesis by publication, each article should be self-contained and therefore has been published with all the relevant possible further research directions discussed in detail. To avoid repetition, this section summarises only the  key future research priorities, which are deemed underrepresented in the current literature.
+
+While the HDoutliers algorithm is powerful, several classes of counterexamples were identified where the structural properties of the data did not enable the HDoutliers algorithm to detect certain types of outliers. However, I acknowledge that these counterexamples are not diverse and challenging enough to generalise the findings to conclude that stray is always the superior algorithm. Therefore, an important open research problem is to assess the effectiveness of these algorithms across the broadest possible problem space defined by different datasets with diverse properties  [@kang2017visualising]. It would also be interesting to explore how other classes of problems with various structural properties can influence the performance of the stray algorithm and where its weaknesses might lie. This type of instance space analysis [@smith2014towards] will enable further insights into improved algorithm design. 
+
+In the oddstream algorithm, the use of the feature-based representation of time series is recommended, owing to its many advantages over the instance-based representation of time series. In the present study, only 14 features were used to represent a given time series. Further exploration of feature extraction and automatic feature selection methods is required to create a richer feature space that is suitable for many applications in the streaming data context. The proposed algorithm uses the first two principal components to obtain a two-dimensional feature space, and then defines an anomalous threshold on the resulting two-dimensional feature space. It is expected that in further studies, other dimension reduction techniques will be used, such as multidimensional scaling and random projection, to investigate the effects of such techniques on the performance of the proposed framework. Further, the density estimation in the proposed algorithm was performed using a bivariate kernel density estimation
+method. Since the density values in the tail are used  to build the model of the typical behaviour, additional experiments need to be conducted on density estimation methods, to improve the tail estimation. On this topic, the log-spline bivariate density estimation method and the local likelihood density estimation method will be considered, with the aim of achieving a better tail estimation, and thereby improving the performance of the proposed algorithm. 
+The current algorithm is developed under the assumption that the measurements produced by sensors are one-dimensional. Rapid advances in hardware technology have made it possible for many sensors to capture multiple measurements simultaneously, leading ultimately to a collection of multidimensional multivariate streaming time series  data. Therefore, an important open research problem is to extend the oddstream algorithm to handle multidimensional, multivariate streaming data.  Extending the oddstream algorithm to the detection of anomalies in this data context may allow us to perform anomaly detection in an even wider range of application domains. 
+
+
+Spatiotemporal anomaly detection for water-quality data also lags behind that for other *in situ* sensor data types [e.g., air quality or meteorology; @wu2008spatio] because river data pose new challenges, such as the complex relationships between neighbouring sensors due to branching networks and flow directionality, tendency for biofouling and the highly dynamic nature of river water even under typical conditions [@kang2009discovering]. These challenges make traditional anomaly detection approaches inadequate for spatiotemporal water-quality data and require new methods. The oddwater algorithm is expected to expand into space and time so that it can deal with the spatiotemporal correlation structure along branching river networks. This will in turn provide a fundamental step-change in scientific understanding of the spatiotemporal dynamics of water quality in rivers and their networks and the potential downstream effects of pollutant loads. 
+
+
+## Research Reproducibility
+
+Research reproducibility is an important topic in modern science  because it provides a general schema and an infrastructure to regenerate quantitative scientific results using the original datasets and methods [@stodden2014implementing]. Therefore, to facilitate reproducibility and reuse of the results presented in this thesis, I undertook several actions  under the three key areas: software, data and papers [@stodden2014implementing]. 
+
+###  Software
+
+This thesis introduces three R packages for anomaly detection. 
+
+The first R package is an accompaniment to the algorithm proposed in Chapter \ref{ch:stray} and includes useful functions for detecting anomalies in high-dimensional data. Version 1.0.0.9000 of the package was used for the results presented in Chapter \ref{ch:stray} and is available from GitHub at [https://github.com/pridiltal/stray](https://github.com/pridiltal/stray).
+
+The second R package, \pkg{oddstream}, is an accompaniment to the algorithm proposed in Chapter \ref{ch:oddstream} and includes useful functions for detecting anomalous series within a large collection of streaming time series data. Version 0.5.0 of the package was used for the results presented in Chapter \ref{ch:oddstream}  and is available from GitHub at [https://github.com/pridiltal/oddstream](https://github.com/pridiltal/oddstream).
+
+
+The third package is an accompaniment to the algorithm proposed in Chapters \ref{ch:oddwater_features} and \ref{ch:oddwater_main} and includes useful functions for detecting  technical anomalies in water-quality data from *in situ* sensors. Version 0.5.0.9000 of the package was used for the results presented in Chapters \ref{ch:oddwater_features} and \ref{ch:oddwater_main} and is available from GitHub at [https://github.com/pridiltal/oddwater](https://github.com/pridiltal/oddwater).
+
+### Data
+
+All the datasets on which the results are computed  in each  article are available via the corresponding R package. A Shiny web application available through the `oddwater` R package provides greater visual insight into the water-quality data from *in situ* sensors and was heavily used during the labelling process to pinpoint observations. 
+
+### Papers
+
+The three main articles in  Chapters \ref{ch:stray}, \ref{ch:oddstream} and \ref{ch:oddwater_features} describe the corresponding algorithms in detail and compare their implementations using various datasets. The source files, including datasets and R code to reproduce all figures, tables and analysis of each article, can be found in the following public GitHub repositories.
+
+Chapter \ref{ch:stray}: 'Anomaly Detection for High Dimensional Data' at [https://github.com/pridiltal/stray_manuscript](https://github.com/pridiltal/stray_manuscript).
+
+Chapter \ref{ch:oddstream}: 'Anomaly Detection in Streaming Non-stationary Temporal Data' at [https://github.com/pridiltal/oddstream_manuscript](https://github.com/pridiltal/oddstream_manuscript).
+
+Chapters \ref{ch:oddwater_features}: 'A Feature-Based Procedure for Detecting Technical Outliers in Water-Quality Data from *in situ* Sensors'  at [https://github.com/pridiltal/oddwater_manuscript](https://github.com/pridiltal/oddwater_manuscript).
+
+These articles were written entirely using `Rmarkdown` [@Rmarkdown1], and compiled into a thesis  using  the `bookdown` R package [@Rbookdown1], with the Monash PhD thesis rmarkdown template available at [https://github.com/robjhyndman/MonashThesis](https://github.com/robjhyndman/MonashThesis). The source files of this thesis are available at [https://github.com/pridiltal/PhD_Thesis_2019](https://github.com/pridiltal/PhD_Thesis_2019).

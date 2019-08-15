@@ -1,0 +1,305 @@
+---
+chapter: 1
+knit: "bookdown::render_book"
+---
+
+```{r initial, echo = FALSE, cache = FALSE, include = FALSE}
+library(knitr)
+opts_chunk$set(
+  warning = FALSE,
+  message = FALSE,
+  echo = FALSE,
+  fig.path = 'figure/',
+  cache.path = 'cache/',
+  fig.align = 'center',
+  fig.show = 'hold',
+  cache = TRUE,
+  external = TRUE,
+  dev = "png",
+  fig.height = 6,
+  fig.width = 10,
+  out.width = "0.8\\textwidth",
+  fig.pos = "h"
+)
+read_chunk('src/main.R')
+```
+
+```{r load}
+```
+
+# Introduction {#ch:intro}
+
+
+Anomaly detection is an important research topic that has been explored within diverse research areas and application domains. The presence of anomalies in  data can lead to biased parameter estimation, model misspecification and misleading results if classical analysis techniques are blindly applied [@abuzaid2013detection; @ben2005outlier]. Conversely, anomalies themselves can be the main carriers of significant and often critical information and the identification of these critical points can be the main purpose of many investigations in fields such as fraud detection (e.g., credit card frauds and network intrusion),  object tracking (e.g., flight tracking), system health monitoring (e.g., machine breakdown and power cable leakages) and environmental monitoring (e.g., water quality, bushfire, earthquake and volcanic eruption) [@gupta2014outliersurvey]. Further, owing to rapid advances in data collection technology it has become  increasingly common for organisations to be dealing with data that stream in large quantities. Therefore, the overall focus of this thesis is on detecting anomalies in streaming time series data.
+
+
+## Background
+
+This section reviews the background work on anomaly detection for
+streaming time series data and lays the foundation for the work presented in Chapters \ref{ch:stray}--\ref{ch:oddwater_main}
+
+### Definitions Found in the Literature
+
+Solutions to the problem of detecting unusual behaviours in systems of interest can be influenced heavily by the way in which anomalies are defined. Three terms are used commonly and interchangeably in the literature to describe work related to the topic: *novelty* [@clifton2011novelty; @hugueny2013novelty], *anomaly* [@hyndman2015large; @kumar2016adaptive] and *outlier* [@schwarz2008wind; @wilkinsonvisualizing]. However, @faria2016novelty differentiate between these three terms, using the terms anomaly and outlier to refer to the idea of an undesired pattern but novelty to refer to the emergence of a new concept that needs to be incorporated into the typical behaviour of the system. In line with this view, @chandola2009anomaly define an anomaly as a pattern in the data that does not conform to the expected behaviour but a novelty as an unobserved pattern that is typically incorporated into the model of the typical behaviour of a given system when it is detected. However, @gama2010knowledge points out that a substantial number of examples is required as evidence of the appearance of a novelty before it should be incorporated into the model of the typical behaviour of a given system. Thus, the sparse examples that differ considerably from the 'typical' behaviour can all be considered anomalies or outliers, since there is no guarantee that they represent a new
+`typical' behaviour of the system [@faria2016novelty]. @lavin2015evaluating define anomalies in streaming data, with respect to their past behaviour, as
+patterns that do not conform to the past behaviours of the system. As a result, a new behaviour may be anomalous at first, but it ceases to be
+anomalous if the new 'typical' pattern continues to exist, and ultimately
+ends up being a novelty rather than an anomaly or an outlier.
+
+@grubbs1969procedures defines an anomaly as an observation that deviates markedly from other members of the sample. However, this deviation can be defined in terms of either distance or density. @burridge2006additive, @wilkinsonvisualizing and @schwarz2008wind have all proposed methods for
+anomaly detection by defining an anomaly in terms of distance. In contrast, @hyndman1996computing, @clifton2011novelty and @hugueny2013novelty have proposed methods that define an anomaly with respect to either the density or the chance of the occurrence of observations.
+
+### Representation of Time Series
+
+According to @fulcher2014highly, the representation of time series is twofold: instance-based and feature-based.
+
+The instance-based representation of time series is the most
+straightforward and has been used by many researchers in the data mining community. Under this representation, if two time series are to be compared, a distance metric between the two time series is defined that leads to a direct comparison of the ordered values of the two time series. The methods proposed by  @wilkinsonvisualizing, @clifton2011novelty and @hugueny2013novelty are all based on this representation of time series.
+
+In contrast to the instance-based representation of time series, the feature-based representation of time series involves representing a given time series in terms of its properties, measured using different statistical operations, thereby transforming a temporal problem into a static problem [@fulcher2013highly]. After extracting features, further analysis is based on these extracted features. Thus, this representation can allow an algorithm to compare time series of different lengths and/or starting points, because it can transform time series of any length or starting point into a vector of features of  a fixed size. Recently, researchers such as @wang2006characteristic, @fulcher2012highly and @hyndman2015large have paid a considerable amount of attention to the feature-based representation of time series, since it helps to reduce the dimension of the original multivariate time series problem via features that encapsulate the dynamic properties of the individual time series efficiently.
+
+### Extreme Value Theory
+
+The algorithms proposed in Chapters  \ref{ch:stray},  \ref{ch:oddstream} and \ref{ch:oddwater_features}  are based on th extreme value theory, a branch of probability theory that relates to the behaviour of extreme order statistics in a given sample [@galambos2013extreme]. In contrast to traditional data analysis, where the primary focus is on the observations in the central region of the distribution, extreme value theory focuses primarily on modelling the distribution of extreme order statistics in a given sample [@pinto2016advanced; @clifton2009novelty]. The central limit theorem is one of the most striking limit theorems in statistics. Its ability to approximate the distribution of the sample mean irrespective of the parent distribution of the original random variable is the property that makes this theorem so remarkable [@coles2001introduction]. Analogous arguments are used in the extreme value theory to approximate distributions of extreme order statistics in a given sample.
+
+### Key Results of Classical Extreme Value Theory
+
+Consider a set of $m$ independent and identically distributed (iid) data, $\;\textbf{X}= \{x_{1}, x_{2}, \dots,$ $x_{m}\},$ which has its own cumulative distribution function (CDF), $F$, and an associated probability density function (pdf), $f$. In classical extreme value theory, $x_{i} \in \Re$ (univariate). Let $X_{max}= max(\textbf{X})$ and $X_{min}= min(\textbf{X})$. The extreme value theory focuses on the  statistical behaviour of  these quantities. Hereafter, the discussion will focus on $X_{max}$ ($X_{min}$ will be referred to only when necessary), because it simplifies the discussion, but a similar argument can be applied to $X_{min}$ as well.
+
+The distribution of $X_{max}$ can be investigated by taking several random samples of size $m$ from a given distribution, recording the maximum of each sample and constructing a density plot of the maxima. Figure \ref{fig:EVDchange} (reproduced from @hugueny2013novelty, p. 87) shows the empirical distributions of  minima and maxima for the standard Gaussian distribution (left), and of maxima for the standard exponential distribution (right) for series of sizes $m$. Each density plot is based on $10^6$ data points. Consider the case of $m=1$, where we observe only one data point from $f$ in each trial. The corresponding density plot approximates the generative distribution $f$, because the maximum of a singleton set $\{x\}$ is simply $x$. However, the density plots for maxima move to the right as $m$ increases, implying that the expected location of the sample maximum on the x-axis increases as more data are observed from $f$. Let $H^{+}$ denote the distribution function of $X_{max}$. This is termed the *extreme value distribution* (EVD), because it describes the expected location of the maximum of a sample of size $m$ generated from $f$ [@clifton2011novelty]. The Fisher--Tippett Theorem [@fisher1928limiting], which is the basis of classical extreme value theory, explains the possibilities for this $H^{+}$.
+
+```{r  EVDchange, fig.cap="Empirical distributions of $10^6$ minima and maxima for the standard Gaussian distribution (left), and of maxima for the standard exponential distribution (right). (Reproduced from Hugueny, 2013, p.87.)", cache=TRUE, fig.height = 5, out.width="100%" , fig.pos = "h"}
+```
+
+```{theorem, fisherTippet, name = "Fisher-Tippett theorem, limit laws for maxima", echo=TRUE}
+(Theorem 3.2.3 in *@embrechts2013modelling*, p. 121; the notations have been changed for consistency within this thesis.)
+
+Let  $\textbf{X}= \{x_{1}, x_{2},\dots ,x_{m}\}$ be a sequence of iid random variables and $X_{max}= max(\textbf{X})$. If there exists a centring constant $d_{m} (\in\Re)$ and normalising constant $c_{m} (>0)$, and some non-degenerate distribution function $H^{+}$ ('+' refers to the distribution of maxima) such that:
+\begin{equation*}
+c_{m}^{-1}(X_{max}-d_{m}) \xrightarrow{\text{d}} H^{+},
+\end{equation*}
+
+then $H^{+}$ belongs to one of the following three distribution function types:
+
+
+$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\text{\textit{Fr\'{e}chet}}:\;\;\;\;\varPhi_{\alpha}^{+}(x)\;\;\;=\;
+\begin{cases}
+0,   \;\;\;\;\;\;\;\;&  x \leqslant 0\\
+exp\{-x^{-\alpha}\},            \;\;\;\;  & x>0
+\end{cases}\;\;\;\;\;\;\alpha>0$
+
+$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\text{\textit{Weibull}}:\;\;\;\;\varPsi_{\alpha}^{+}(x)\;=\;
+\begin{cases}
+exp\{-(-x)^{\alpha}\},&  x \leqslant 0\\
+1,              & x>0
+\end{cases}\;\;\;\;\;\;\alpha>0$
+
+$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\text{\textit{Gumbel}}:\;\;\;\varLambda^{+}(x)\;\;\;\;=\;\;
+exp\{-e^{-x}\},\;\;\;\;\;\;\;\;\;x \in\Re.\\$
+```
+
+```{definition, evdrv, name = "Extreme value distribution and extremal random variable", echo=TRUE}
+(Definition 3.2.6 in @embrechts2013modelling, p. 124)
+
+The distribution functions $\varPhi_{\alpha}, \varPsi{\alpha}$ and $\varLambda$ as presented in Theorem \@ref(thm:fisherTippet) are called standard extreme value distributions and the corresponding random variables, standard extremal random variables.  Distribution functions of the types of $\varPhi_{\alpha}, \varPsi{\alpha}$ and $\varLambda$ are extreme value distributions; the corresponding random variables are extremal random variables.
+   \begin{flushright}
+   	$\square$
+   \end{flushright}
+
+````
+
+From Theorem  \@ref(thm:fisherTippet), it can be observed that the extreme value distributions are implicitly parameterised by $m$, the size of the sample from which the extrema is taken. Therefore, different values of $m$ will yield different extreme value distributions [@clifton2011novelty].
+
+
+
+```{definition, MDA, name = "Maximum domain of attraction", echo=TRUE}
+(Definition 3.3.1 in @embrechts2013modelling, p. 128; the notations have been changed for  consistency within this thesis.)
+
+We say that the rv $X$ (the distribution function $F$ of $X$ or the distribution of $X$) belongs to the maximum domain of attraction of the extreme value distribution $H^{+}$ if there exist constants  $c_{n} > 0$, $d_{n} \in \Re$ such that:
+\begin{center}
+	$c_{m}^{-1}(X_{max}-d_{m}) \underrightarrow{d} H^{+}$.
+\end{center}
+
+We write $X \in MDA(H^{+}) \;\;(F \in MDA(H^{+}))$.
+\begin{flushright}
+	$\square$
+\end{flushright}
+```
+
+The following properties, highlighted by @embrechts2013modelling, will assist in deciding the maximum domain of attraction of the three extreme value distributions to which $X$ belongs. Let $x_{F} = \text{sup}{\{x \in \Re : F(x) < 1\}}$ denote the right endpoint of $F$.
+
+- All distribution functions $F \in MDA(\varPhi_{\alpha}^{+})$ have an  infinite right endpoint $x_{F} = \infty$ (the tail decreases like a power low). The Pareto, F, Cauchy and log-gamma distribution functions are just a few examples covered by the maximum domain of attraction of the $\text{Fr\'{e}chet}$ distribution.
+
+- All distribution functions $F \in MDA(\varPsi_{\alpha}^{+})$ have a finite right endpoint $x_{F} < \infty$ (truncated tail). The uniform and beta distributions are two examples covered by the maximum domain of attraction of the Weibull distribution.
+
+- Unlike the $\text{Fr\'{e}chet}$ and Weibull distributions, the maximum domain of  attraction of the Gumbel distribution is not easy to characterise, because all distribution functions $F \in MDA(\varLambda^{+})$ can have either a finite or an infinite endpoint $x_{F} \leqslant \infty$. Perhaps one way of thinking of the maximum domain of attraction of the Gumbel distribution is that it consists of distribution functions whose right tail decreases to zero faster than any power function (exponentially decaying tail). The exponential, gamma, normal and lognormal distributions are just a few examples covered by the maximum domain of attraction of the Gumbel distribution.
+
+Extreme value distributions for minima can be discussed in a similar manner.
+In Chapter  \ref{ch:oddstream},  we are particularly  interested in the  Weibull  extreme value distribution for minima, which is given by
+
+$\;\;\;\;\;\;\;\;\;\;\varPsi_{\alpha}^{-}(x)\;=\;
+\begin{cases}
+0,&  x < 0\\
+1-exp\{-x^{-\alpha}\},              & x\geqslant 0
+\end{cases}$
+
+where '-' refers to the distribution of minima.
+
+Interested readers are referred to the work of @embrechts2013modelling for a detailed discussion of the characterisation of the three classes: Gumbel, $\text{Fr\'{e}chet}$ and Weibull.
+
+```{definition, QF, name = "Quantile function", echo=TRUE}
+(Definition 3.3.5 in @embrechts2013modelling, p.130)
+
+The generalised inverse of the distribution function $F$
+\begin{center}
+	$F^{\longleftarrow}(t)=\text{inf}\{x\in \Re: F(x)\geqslant t\},\;\;\;\;0<t<1,$
+\end{center}
+
+is called the quantile function of the distribution function $F$. The quantity $x_{t}= F^{\longleftarrow} (t)$ defines the t-quantile of F.
+\begin{flushright}
+	$\square$
+\end{flushright}
+
+```
+
+```{theorem, MDAweilbull, name = "Maximum domain of attraction of $\\varPsi_{\\alpha}^{-}$ ", echo=TRUE}
+(Theorem 1 in @clifton2011novelty, p. 384;  the notations have been changed for consistency within this thesis)
+
+The distribution function $F$ belongs to the maximum domain of attraction of the minimal Weibull distribution ($\varPsi_{\alpha}^{-}$), $\alpha>0$, if and only if  $x_{F} >-\infty$ and $F(x_{F}+x^{-1})=x^{-\alpha}L(x)$ for some slowly varying function L.
+
+If  $F \in MDA(\varPsi_{\alpha}^{-}),$ then
+\begin{center}
+	$c_{m}^{-1}(X_{min}-x_{F})\underrightarrow{d}  \varPsi_{\alpha}^{-},$
+\end{center}
+
+where the normalising constant $c_{m}$ and the centring constant  $d_{m}$ can be chosen as $c_{m}=x_{F}+F^{\longleftarrow}(m^{-1})$ and $d_{m}=x_{F}$. $X_{min}$ is the minimum of m data. $x_{F} = \text{inf}{\{x \in \Re : F(x) \leqslant 0\}}$. $F^{\longleftarrow}(t)$  is the t-quantile of $F$.  $L$ is a slowly varying function at $\infty$; that is, a positive function for all $t>0$ that obeys
+\begin{center}
+	$lim_{x \longrightarrow \infty}\frac{L(tx)}{L(x)}=1.$
+\end{center}
+
+
+```
+
+Although these extreme value distributions differ in their purposes for modelling, they are related closely from a mathematical point of view. The following properties can be verified immediately [@embrechts2013modelling; @hugueny2013novelty]:
+
+
+\begin{flushleft}
+		$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; X^{-1} \in MDA(\varPsi_{\alpha}^{-})\;\; \text{with shape parameter}\;\;\alpha$\\[0.3cm]
+
+	$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\Longleftrightarrow \;\;\;\; -X^{-1} \in MDA(\varPsi_{\alpha}^{+})\;\; \text{with shape parameter}\;\;\alpha$\\[0.3cm]
+
+	$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\Longleftrightarrow \;\;\;\; ln(X)^{\alpha} \in MDA(\varLambda^{+}).$
+
+\end{flushleft}
+
+\begin{flushright}
+	$\square$
+\end{flushright}
+
+
+Let $X_{1},X_{2},\dots, X_{n}$ be a sample from a distribution function $F$ and let $X_{1:n}\geqslant X_{2:n}\geqslant \cdots \geqslant X_{n:n}$ be the order statistics. The available data are  $X_{1:n},\dots,X_{k:n}$ for some fixed $k.$
+
+```{theorem, spacingtheorem, name = "Spacing theorem", echo=TRUE}
+(Proposition 1 in @burridge2006additive, p. 6 and Theorem 3 in @weissman1978estimation, p. 813; the notations have been changed for consistency in this thesis.)
+
+Let $D_{i,n} = X_{i:n} - X_{i+1:n}$, ($i=1,\dots,k$) be the spacing between successive order statistics. If $F$ is in the maximum domain of attraction of the Gumbel distribution, then  spacings $D_{i,n}$ are asymptotically independent and exponentially distributed with mean proportional to $i^{-1}$.
+```
+
+```{r spacings, out.width='100%', fig.cap= "(a) Distribution of the descending order statistics $X_{i:n}$ and (b) distribution of the standardised spacings $iD_{i,n}$ for $i \\in \\{1,\\dots,10\\}$ for $1,000$ samples each containing $20,000$ random numbers from the standard normal distribution.",  message=FALSE, warning=FALSE }
+```
+
+This theorem is illustrated using Figure \ref{fig:spacings}, which shows the distribution of the descending order statistics $(X_{i:n})$ and the standardized spacings, $(iD_{i,n})$, for $i \in \left\{1,\dots,10\right\}$ for $1,000$ samples each containing $20,000$ random numbers from the standard normal distribution. Figure \ref{fig:spacings} (a) shows the distribution of $X_{i:n}$ with means of $X_{i:n}$ depicted as black crosses. The gaps between consecutive black crosses give the spacings between higher-order statistics  $(D_{i,n})$. We note that the normal distribution is in the maximum domain of attraction of the Gumbel distribution and that this example contains no outliers. A consequence of Theorem \@ref(thm:spacingtheorem) is that the standardised spacings $(iD_{i,n})$ for $(i = 1,\dots , K)$, are approximately iid [@burridge2006additive]. Figure \ref{fig:spacings} (b) shows the distribution of the standardised spacings $(iD_{i,n})$ for $(i = 1,2,\dots,10)$ for $1,000$ samples of size $20,000$. Each letter-value box plot [@hofmann2017value]  exhibits approximately the shape of an exponential distribution.  
+
+```{definition, DPD, name = "Distribution of probability densities", echo=TRUE}
+(Definition 6 in @hugueny2013novelty, p. 105)
+
+Let X be a (possibly multivariate) random variable with CDF $F$, pdf $f$, support $D_{f}$, and probability space $P_{f}$. $Y=f(X)$ is a random variable, distributed according to:
+
+\begin{center}
+		$\forall y \in P_{f},\;\;G(y;f) = P(Y \leqslant y)$\\
+	$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; = P(f(X) \leqslant y)$\\
+
+ 			$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; =\int_{f^{-1}(]y_{min},y])}f(x)dx,$
+\end{center}
+where $y_{min}=\text{Inf}(P_{f})$ and $f^{-1}(]y_{min},y])$ is the preimage of
+$]y_{min},y]$ under $f$.
+\begin{flushright}
+	$\square$
+\end{flushright}
+
+```
+
+**Proposition 1.1** (The domain of attraction of the distribution of probability density (DPD) for the multivariate Gaussian)
+
+(Proposition 4 in @hugueny2013novelty, p. 141; *the notations have been changed for  consistency within this thesis*.)
+
+Let $f$ be the multivariate Gaussian distribution. $F$ is for the distribution of its minima in probability density in the domain of attraction of the minimum Weibull distribution $\Psi_{\alpha}^{-}$.
+
+For a sample size $m\in N^{*}$, the norming constants can be chosen to be:
+
+\begin{flushleft}
+		$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;c_{m} = G^{\longleftarrow} (\frac{1}{m};f)$\\
+		$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;d_{m} = 0$\\
+	$\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\alpha_{m}=1$.
+\end{flushleft}
+
+### Calculation of Anomalous Threshold
+
+Chapter \ref{ch:stray}  and Chapter \ref{ch:oddwater_features} both use Theorem \@ref(thm:spacingtheorem) (Spacing Theorem by @weissman1978estimation) to estimate a data-driven anomalous threshold to discriminate anomalies. This step sorts anomalous scores and searches for any large gap at the upper tail of the distribution defined by the anomalous scores. This search for significant gaps in the upper tail can either be performed using the top-down algorithm by @burridge2006additive or bottom-up algorithm by @schwarz2008wind.
+ 
+####  Top-down algorithm
+
+As the name implies, the top-down algorithm introduced by @burridge2006additive starts from the maximum and moves backwards over the sorted array, seeking a significantly large gap. As summarised by @schwarz2008wind, the top-down algorithm is as follows:
+	
+- Let $X_{1},X_{2},\dots X_{n}$ be a sample from a distribution function $F,$ and let $X_{1:n}\geqslant X_{2:n}\geqslant \cdots \geqslant X_{n:n}$ be the order statistics.
+- Let $D_{i} = X_{i:n} - X_{i+1:n}$ be the spacing between successive order statistics.
+- Calculate the standardised spacings, $S_{i} \equiv iD_{i}$.
+- Find the maximum of the first  $N/\alpha$ spacings, $S_{k}$, where $N$ is the maximum possible number of outliers and $\alpha$ is the acceptable false positive rate. The quantity $N/\alpha$ then represents  the number of spacings that must be examined to achieve a significance level of $\alpha$.
+- If $k \leq N$ spacings, mark the top $k$ values as anomalies.
+- In addition to the gap between anomalous points and the valid data, sometimes there can be multiple gaps in between different groups of  anomalous points. Therefore, repeat the above steps on the remaining data until no more gaps are found in the top $N$ values.
+
+
+However, repeating the process over data until it detects all the discrete groups of anomalies present in the dataset makes the algorithm inefficient for massive datasets with vast quantum of data.  Further, it is not desirable to set  a value for the maximum possible number of outliers, because this value is not known in advance for many real-world applications. Ideally, the algorithm should be able to pick all the anomalies present in the data without having this predetermined number. Further, according to @schwarz2008wind, this algorithm does not use the full power of the spacing theorem; it only employs the fact that the standardised spacings are iid and fails to use the fact that they are exponentially distributed, which could have given more information about how unlikely is a given spacing. The bottom-up algorithm introduced by @schwarz2008wind has the ability to release these unrealistic assumptions and overcome the limitations of the top-down algorithm. The bottom-up algorithm is based on the work of @burridge2006additive but  uses the full power of the spacing theorem.
+	
+	
+#### Bottom-up algorithm
+
+As in the top-down algorithm, the bottom-up algorithm is also based on the assumption that  anomalies can bring large separations between valid data and anomalies, compared with the separations between valid data among themselves. However, in contrast to the top-down algorithm, the bottom-up algorithm  now starts from the middle of the sorted data array, which represents the valid data, and moves forward towards the upper tail of the sorted array until it reaches a  large gap, which is highly unlikely to occur if it is  generated from the same distribution of the valid data. When a gap is encountered that is well beyond expectation, it terminates the  searching process  and marks  all the points above that value  as outliers. The specific steps of the bottom-up algorithm proposed by @schwarz2008wind is as follows:
+	
+- Let $X_{1},X_{2},\dots X_{n}$ be a sample from a distribution function $F,$ and let $X_{1:n}\geqslant X_{2:n}\geqslant \cdots \geqslant X_{n:n}$ be the order statistics.
+- Calculate $D_{i} = X_{i:n} - X_{i+1:n}$, the spacing between successive order statistics.
+- At each rank $i$, test the hypothesis that $X_{i:n}$ is the largest valid data point in the sample, with the help of the spacings immediately  below it ($D_{i+1}, D_{i+2},..$). If  $X_{i:n}$ is the largest valid data point in the sample,  according to the spacing theorem, spacings $D_{i}, D_{i+1}, D_{i+2},\dots$ should be proportional to $1, \frac{1  }{2}, \frac{1  }{3},\dots$, and so on. This allows us to use spacings $D_{i+1,n},D_{i+2,n}, \dots,D_{i+k,n}$ to predict the spacing $D_{i}$: 
+		\begin{center}
+			$\hat{D_{i}}=\frac{1}{k-1}\sum_{j=2}^{k}jD_{i+j-1}$
+		\end{center}
+(Since the spacing theorem applies only to a small fraction of the data ranked near the upper tail, the entire dataset cannot be used to estimate $D_{i}$ and therefore is used only $k$($\ll n$) number of spacings for the estimation process. The value $k$ should be large enough to obtain a stable estimate for $D_{i}$, but small compared with the sample size, $n$. @schwarz2008wind has recommended $50$ spacings as a rough guideline for the value $k$ and the same has been used by @wilkinsonvisualizing for large samples). If they all represent valid points, then all the terms in the summation have the same mean, which is similar to the mean of $D_{i}$. Therefore, $\hat{D_{i}}$ serves as an estimator for $D_{i}$.
+- As in the spacing theorem, since $D_{i}$ follows an exponential distribution with mean proportional to $i^{-1}$, for a given significance level $\alpha$, a threshold $t$ that will not be exceeded by valid data can be obtained using:
+		\begin{center}
+			$t=\hat{D_{i}}log(1/ \alpha)$
+		\end{center}
+- Work upward towards the upper tail of the sorted data array. At the first $i$ where spacing $D_{i}$ exceeds threshold $t$, terminate the searching process and flag  $X_{i:n}$ and all the points above in the sorted array as outliers. 
+
+The bottom-up algorithm has been used in the research presented in Chapter \ref{ch:stray}  and Chapter \ref{ch:oddwater_features} because of its obvious advantages over the top-down algorithm.
+
+## Motivation and Objectives
+\label{sec:motivation}
+
+In light of the increasing demand for accurate and powerful automated methods for early detection of anomalies in the streaming data scenario and the lack of attention paid to this topic, the primary motivation of this thesis is to develop methods for early detection of anomalies in the streaming data context.
+
+The **first** motivation of this thesis arises from the recently proposed  HDoutliers method by  @wilkinsonvisualizing. The HDoutliers algorithm is a powerful algorithm with a strong theoretical foundation for anomaly detection in high-dimensional data. However, some limitations significantly hinder its performance level. The effect of these limitations is a tendency to increase the rate of false positives and/or rate of false negatives under certain conditions. Therefore, the first objective is to propose solutions to these limitations of the HDoutliers algorithm. Chapter \ref{ch:stray} addresses this objective. The proposed algorithm, the stray algorithm, is based on distance measures and the extreme value theory. Chapter \ref{ch:stray} also demonstrates how the stray algorithm can assist in detecting anomalies in other data structures, such as time series data and streaming temporal data. The improved algorithm is implemented in the open source R package `stray`}.
+
+The **second** motivation of this thesis originated from  the limited research attempts  on detecting anomalous series within a large collection of series in the streaming data scenario where data flow rapidly in a continuous manner. A few researchers [@hyndman2015large; @wilkinsonvisualizing]  have developed methods to identify anomalous series within a large collection of series, mainly focusing on the batch scenario where it is assumed that the entire dataset is available prior to analysis. However, in contrast to the batch scenario, the streaming data scenario poses many different challenges owing to its complex nature evolving over time. In addition to the obvious difficulties caused by the large volume and velocity of streaming data, highly noisy signals can increase the related complexity. Nonstationarity (concept drift) is another major topic in the streaming data analysis  that makes it difficult to distinguish new typical behaviour from anomalous events [@faria2016novelty]. To address this issue, detectors should be able to learn and  adapt according to  the conditions present.  Early detection of anomalies as soon as they start but before they end is another major requirement of most applications related to this problem. Therefore, the second objective of this study is to develop a powerful automated method to detect anomalous  series within a large collection of series in the streaming data context such that it meets these requirements. Chapter \ref{ch:oddstream} is dedicated to achieving this objective. This chapter presents a new algorithm based on density modelling and the extreme value theory. To cope with nonstationarity (concept drift), a density-based comparison approach is proposed. The proposed algorithm can detect  significant changes in the typical behaviour and automatically update the anomalous threshold  upon  detecting  a nonstationarity.  The proposed algorithm is implemented in the open source R package `oddstream`.
+
+The **third** motivation of this thesis arises owing to the non-existence of a customised method to  detect technical anomalies in high-frequency water-quality data from *in situ* sensors. Automated *in situ* sensors have the potential to revolutionise the way we manage and monitor environmental settings, such as air, soil and water. The data produced by these sensors  enable us to  identify  fine-scale patterns, trends and extremes  over space and time. Although they represent cutting-edge technology, the data they produce are still prone to errors because of many reasons, such as  miscalibration, biofouling  and battery failures [@horsburgh2015open]. Moreover, these anomalies and the ability to detect them can differ according to the geographic characteristics of the environmental system and the spatial placement of the sensors. To ensure data quality, we need to automate the real-time detection of anomalies. Therefore, our third objective is to propose a new framework for automated anomaly detection in high-frequency water-quality data from *in situ* sensors. 
+Chapters \ref{ch:oddwater_features} and \ref{ch:oddwater_main}  address this objective. In these chapters, an attempt was made to develop methods that can incorporate the correlation structure of several measurements taken from each site. This involves an application performing anomaly detection using turbidity, conductivity and river level data collected from rivers flowing into the Great Barrier Reef lagoon, Australia.  The proposed algorithm is implemented in the open source R package `oddwater`.
+
+
+Conclusions are drawn in Chapter \ref{ch:conclusion} with a discussion on potential extensions to the proposed algorithms introduced in Chapter \ref{ch:stray}, \ref{ch:oddstream} and  \ref{ch:oddwater_features}.
+
+These three main objectives guided the structuring and development of the major chapters of this thesis. Since this is a thesis by publication that has an introductory chapter and a concluding chapter with articles in between, the reader may notice some amount of repetition among chapters. Each article should be self-contained and therefore has been published with relevant materials for completeness.
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+---
+knit: "bookdown::render_book"
+---
+
+# Acknowledgements {-}
+
+---
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Over the past few years, with my experience on anomaly detection, I realised how important the support from the  surrounding points is for a point to stand out as an anomaly, just like my support system  around me supported me to make this thesis a reality. Now, it is my great pleasure to thank everyone who made this thesis possible. 
+
+I am deeply grateful to my  supervisor Professor Rob J. Hyndman.  Your valuable guidance  and your way of thinking about, and doing, research continue to inspire me and shaped my thinking about all facets of this research. My research style, my research focus, my research toolkit -- they all have their own roots in your mentorship. I am also very grateful to my co-supervisor Professor Kate Smith-Miles from University of Melbourne, Australia, who always raised important questions I never would have considered. I am truly blessed to have you two throughout this very special journey. Your influence on my thinking about research from different angles and boosting my confidence is beyond estimation. 
+
+Chapters 3 and 4 are based on the collaborative research project carried out with the Queensland University of Technology and the Queensland Department of Environment and Science, Great Barrier Reef Catchment Loads Monitoring Program. I consider myself very lucky to have had such a great opportunity to work on this project with many wonderful mentors, including Professor Kerrie Mengersen, Dr Erin Peterson and Dr. Catherine Leigh. Thank you for your thoughtful critiques, support, guidance, encouragement and generous hospitality during my visit to Queensland University of Technology, Australia, in April 2018. It was pure joy working with you all. 
+
+I was able to learn so much at, Monash University because of financial support from the Monash Graduate Scholarship and  the Faculty Graduate Research scholarship. This assistance has provided me many unique opportunities that I will always be thankful for. I am also thankful to  ARC Centre of Excellence for Mathematical and Statistical Frontiers (ACEMS) for funding my visit to Queensland to  work on the water-quality project and the Australian Research Council through the Linkage Project LP160101885 for funding the research study in Chapter 1 of this thesis. I am also thankful to the Queensland Department of Environment and Science; in particular, the Great Barrier Reef Catchment Loads Monitoring Program for the data, and the staff from Water Quality and Investigations for their input on Chapters 3 and 4 of this thesis. Further, this research was supported in part by the Monash eResearch Centre and eSolutions Research Support Services through the use of the MonARCH (Monash Advanced Research Computing Hybrid) HPC Cluster. I want to thank them for their valuable contribution.
+
+I am also very thankful to my thesis committee, Professor Gael Martin, Professor Farshid Vahid, Professor George Athanasopoulos  and   Professor Xueyan Zhao, for their valuable feedback and suggestions. I am also grateful to David Hill and the many anonymous reviewers who read the manuscripts presented in Chapters 3, 4 and 5 and generously provided insights and suggestions to improve our work. I am also thankful to all my co-authors for their valuable contribution and collaborations.  Special thanks to Cathy Morgan  and Elite Editing for helping in copy editing and clarifying the manuscripts. The editorial intervention by Elite Editing  was restricted to Standards D and E of the Australian Standards for Editing Practice. 
+
+I take this opportunity to thank the Statistical Society of Australia (SSA) for the travel grant to present at the Young Statisticians Conference 2017, Tweed Heads, NSW, Australia; the International Institute of Forecasters for the travel grant to present at the 38th International Symposium on Forecasting, Boulder, Colorado, USA and the travel grant to present at the 39th International Symposium on Forecasting, Thessaloniki, Greece;   useR! 2019 for the travel grant to present at useR! 2019, Toulouse, France; and Monash EBS travel grant to present at JSM 2018, Vancouver, Canada. Each of these  conferences is a unique experience and allowed me to share my research findings with a wider community. These conferences helped me significantly to attract the attention of peers and experts in my field, and the  questions, comments  and suggestions I received from both academic and industry-oriented researchers helped me considerably in improving my work.
+
+During my stay at Monash, the department administrative staff members, especially Clare Livesey, were very supportive and  positive regarding every request.  The Monash graduate research team   was also very helpful and timely with all requests and I want to thank them for their assistance. 
+ 
+Special thanks to my sister, Thiyanga Talagala, who was there with, and for me, every step of the way, sharing many hats as  siblings, schoolmates, college mates, workmates and office mates. I was extremely lucky to have an opportunity to have her by my side and share our latest and most precious hats as academic sisters and batch mates together at Monash University. 
+Deeply grateful to our parents whom I love, admire, respect and find comfort in beyond words; you are a pillar of strength for me. All three of you have had a bigger influence on this thesis than you might realise.  
+
+
+
+
+<!-- 
+The following line is required to re-set page numbering after preliminary material. Do not remove
+-->
+\clearpage\pagenumbering{arabic}\setcounter{page}{0}

@@ -1,0 +1,40 @@
+---
+knit: "bookdown::render_book"
+---
+
+# Declaration {-}
+
+I hereby declare that this thesis contains no material which has been accepted for the award of any other degree or diploma at any university or equivalent institution and that, to the best of my knowledge and belief, this thesis contains no material previously published or written by another person, except where due reference is made in the text of the thesis. 
+
+This thesis includes 2 original papers published in peer reviewed journals and 2 submitted publications. The core theme of the thesis is anomaly detection in streaming time series data. The ideas, development and writing up of all the papers (with the exception of Chapter 5) in the thesis were the principal responsibility of myself, the student, working within the Department of Econometrics and Business Statistics, Monash University, under the supervision of Professor Rob J. Hyndman and Professor Kate Smith-Miles.
+	
+The inclusion of co-authors reflects the fact that the work came from active collaboration between researchers and acknowledges input into team-based research. 
+
+In the case of Chapter 2-5 my contribution to the work involved the following:
+
+\begin{table}[H]
+\small
+\begin{tabular}{|p{0.5cm}|p{2cm}|p{1.5cm}|p{4cm}|p{3.5cm}|p{1cm}|}
+\rowcolor[HTML]{000000} 
+{\color[HTML]{FFFFFF} \textbf{Thesis Chapter} } & {\color[HTML]{FFFFFF} \textbf{Publication Title} } & {\color[HTML]{FFFFFF} \textbf{Status (published, in press, accepted or returned for revision)} } & {\color[HTML]{FFFFFF} \textbf{Nature and \% of student contribution}}& {\color[HTML]{FFFFFF} \textbf{Co-author name(s) Nature and \% of Co-author’s contribution}} & {\color[HTML]{FFFFFF} \textbf{Co-author(s), Monash student Y/N }} \\ \hline
+ 2 & Anomaly Detection for High Dimensional Data   &  Submitted  &  Formulating the approach, construction of research design, implementation, data analysis and interpretation, software development, writing the first draft (80\%)    & 1) Rob J. Hyndman, input into manuscript (10\%) \newline 2) Kate Smith-Miles, input into manuscript (10\%)  & N
+ \\ \hline
+3  & Anomaly Detection in Streaming Non-stationary Temporal Data  & Published   & Formulating the approach, construction of research design, implementation, data analysis and interpretation, software development, writing the first draft (80\%)   & 1) Rob J. Hyndman, input into manuscript (10\%) \newline 2) Kate Smith-Miles, input into manuscript (5\%) \newline 3) Sevvandi Kandanaarachchi and Mario A. Mu\~noz, input into manuscript (5\%)  & N  
+\\ \hline
+4  & A feature-based procedure for detecting technical outliers in water-quality data from in situ sensors  &  Revised and resubmitted & Formulating the approach, construction of research design, implementation, data analysis and interpretation, software development, writing the first draft (80\%)  & 1) Rob J. Hyndman, input into manuscript (10\%) \newline  2) Catherine Leigh, Kerrie Mengersen and Kate Smith-Miles, input into manuscript (10\%) & N  
+\\ \hline
+5  & A framework for automated anomaly detection in high frequency water-quality data from in situ sensors  &    Published &  Formulating the feature based anomaly detection approach: implementation, data analysis and interpretation, software development, writing the first draft of the feature based approach related parts. Developing a Shiny web application to explore data. Data preprocessing. (30\%)    & (1) Catherine Leigh, input into manuscript (40\%) \newline  2) Rob J. Hyndman, input into manuscript (10\%) \newline
+3) Other co-authors, input into manuscript (20\%) & N  
+\\ \hline
+\end{tabular}
+\end{table}
+
+I have not renumbered sections of submitted or published papers in order to generate a consistent presentation within the thesis.
+
+**Student name:** Priyanga Dilini Talagala		\hspace{3cm}**Date:**19.08.2019		 
+
+
+
+
+ 
+

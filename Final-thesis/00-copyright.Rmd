@@ -1,0 +1,11 @@
+---
+knit: "bookdown::render_book"
+---
+
+# Copyright Notice {-}
+
+© Priyanga Dilini Talagala (2019). 
+
+I certify that I have made all reasonable efforts to secure copyright permissions for third-party content included in this thesis and have not knowingly added copyright content to my work without the owner's permission.
+
+Except as provided in the Copyright Act 1968, this thesis may not be reproduced in any form without the written permission of the author.

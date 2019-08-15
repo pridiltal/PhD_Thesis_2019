@@ -1,0 +1,42 @@
+---
+knit: "bookdown::render_book"
+---
+
+# Publications During Enrolment {-}
+
+This thesis by publication is built around four articles which are at different stages of publication.
+
+
+1. Chapter \ref{ch:stray} has been submitted to *Computational Statistics & Data Analysis*  for possible publication.
+
+    Talagala, P. D., Hyndman, R. J. & Smith-Miles, K. (2019). Anomaly Detection for High Dimensional Data. *arXiv preprint 	arXiv:1908.04000.*
+  
+
+2. Chapter \ref{ch:oddstream} has been accepted for publication in the *Journal of Computational and Graphical Statistics*  and is currently in press.
+
+    Talagala, P. D., Hyndman, R.J., Smith-Miles, K., Kandanaarachchi, K., &  Muñoz, M.A., (2019) Anomaly Detection in Streaming Nonstationary Temporal Data, *Journal of Computational and Graphical Statistics*, DOI: 10.1080/10618600.2019.1617160.
+
+    I won the ACEMS Business Analytics prize 2018 for this work.
+    
+    
+3. Chapter \ref{ch:oddwater_features} has been revised and resubmitted to the *Water Resources Research*  for possible publication.
+
+    Talagala, P. D., Hyndman, R. J., Leigh, C., Mengersen, K., & Smith-Miles, K. (2019). A feature-based framework for detecting technical outliers in water-quality data from in situ sensors. *arXiv preprint arXiv:1902.06351.*
+  
+4. Chapter \ref{ch:oddwater_main} is published in the *Science of the Total Environment*. 
+
+    Leigh, C., Alsibai, O., Hyndman, R. J., Kandanaarachchi, S., King, O. C., McGree, J. M., Neelamraju, C., Strauss,  J., Talagala, P.D., Turner, R.D., Mengersen, K., & Peterson, E.E. (2019). A framework forautomated anomaly detection in high frequency water-quality data from in situ sensors. *Science of the Total Environment* 664, 885-898.
+
+The contribution in Chapters \ref{ch:stray}, \ref{ch:oddstream} and \ref{ch:oddwater_features} of this thesis were presented at the following events:
+  
+- 37th International Symposium on Forecasting 2017, Cairns, Australia.
+- Young Statisticians Conference 2017, Tweed Heads NSW, Australia. \newline A Statistical Society of Australia travel award grant was received to attend the conference.
+- Young Stats Showcase hosted by the Statistical Society of Australia, Victorian Branch, Australia, in September 2017.
+- 38th International Symposium on Forecasting 2018,  Boulder, Colorado, USA. \newline
+An International Institute of Forecasters travel award grant was received to attend the conference.
+- 2018 Joint Statistical Meetings (JSM2018), Vancouver, British Columbia, Canada
+- useR! 2018, Brisbane, Australia. 
+- Joint International Society for Clinical Biostatistics and Australian Statistical Conference 2018 (ISCB ASC18), Melbourne, Australia. \newline I won the EJP Pitman Young Statisticians Prize 2018, Merit Award 'for the outstanding talk presented by a *Young Statistician* at an Australian Statistical Conference'.
+- 39th International Symposium on Forecasting, Thessaloniki, Greece.  \newline An International Institute of Forecasters travel award grant was received to attend the conference.
+- useR! 2019, Toulouse, France.
+ \newline A conference diversity scholarship was received to attend the conference. 
