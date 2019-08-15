@@ -1,6 +1,7 @@
 # PhD_Thesis_2019
 
 **Thesis Title:** Anomaly Detection in Streaming Time Series Data
+
 **Author:** Priyanga Dilini Talagala
 
 These articles were written entirely using `Rmarkdown`, and compiled into a thesis  using  the `bookdown`
